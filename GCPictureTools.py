@@ -1,8 +1,23 @@
+"""
+File Name: GCPictureTools.py
+Date: 2024-08-01
+Description: provide functions to work with pictures based on pygame package
+Improvement Log
+2024-10-3: add display method to show the picture until user closes the window.
+2024-10-27: add Pixel class; add save method in Picture class to save image into a file
+"""
+
 import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "yes"
 import pygame as pg
 
+
 def demo():
+  """
+  Demo the basic usgae of these tools.
+  Dispay 4 differnt graphic images
+  Hit enter key to change to the next
+  """
   canvas = Picture(500, 500, "light yellow")
   canvas.show()
   input("Press Enter")
@@ -55,6 +70,17 @@ class Picture:
   def __init__(self, *args, **kwargs):
       """
       Initializer
+      Args:
+      If none, then make screen with default size (100 x 100) and color (white)
+      If one string parameter - filename or path to a file
+         then make a picture made from this file
+      If one image parameter - pre-existing image to clone
+         make a copy of the input picture
+      If two integer parameters - assume these are width and height
+         make a screen with the given size
+      If third parameter - a color as string (default: "white")
+      Returns:
+      Nothing
       """
       size = (100, 100)
       if len(args) == 0:
@@ -109,6 +135,35 @@ class Picture:
     pg.display.update()
     pg.event.pump()
 
+  def display(self, title=None):
+    """
+    Display the given image until user close the window
+
+    Args:
+      title (string) - title of the image
+
+    Returns:
+      Nothing
+    """
+    if title is not None:
+      self.title = title
+    mag_image, mag_size = self.magnify()
+    self.window = pg.display.set_mode(mag_size)
+    self.window.blit(mag_image, (0, 0))
+    pg.display.set_caption(self.title)
+
+    # paint screen one time
+    pg.display.flip()
+    status = True
+    while (status):
+      # iterate over the list of Event objects
+      # that was returned by pygame.event.get() method.
+      for i in pg.event.get():
+          # if event object type is QUIT
+          # then quitting the display
+          if i.type == pg.QUIT:
+              status = False
+
   def magnify(self, title=None):
     """
     Magnifies a given image
@@ -159,6 +214,19 @@ class Picture:
     if self.autoUpdate.autoUpdateBool:
       pg.display.update()
 
+  def save(self, filename):
+    """
+    save this image into a file
+
+    Args:
+      filename - the name of the file where the image is to be saved
+
+    Returns:
+      nothing
+    """
+    pg.image.save(self.image, filename)
+
+
   def getAllLocations(self):
     """
     Returns a list of coordinates of all the pixels in a picture
@@ -169,6 +237,23 @@ class Picture:
       for y in range(self.getHeight()):
         newList.append((x, y))
     return newList
+
+  def getPixels(self):
+    """
+    Returns a list with all the pixels in a picture
+    (moving up to down, left to right)
+    """
+    newList = []
+    for x in range(self.getWidth()):
+      for y in range(self.getHeight()):
+        newList.append(Pixel(self, x, y))
+    return newList
+
+  def getPixel(self, x, y):
+    """
+    Returns the pixel at (x, y) in a picture
+    """
+    return Pixel(self, x, y)
 
   def getMagnification(self):
     """
@@ -433,8 +518,67 @@ class Picture:
     if self.autoUpdate.autoUpdateBool:
       pg.display.flip()
      
+class Pixel:
+
+  def __init__(self, picture, x, y):
+      """
+      Initializer
+      Args:
+        picture: picture thay contains this pixel
+        x: column index
+        y: raw index
+      Returns:
+        a pixel instance at (x, y) in pic
+      """
+      self.pic = picture
+      self.x = x
+      self.y = y
+
+  def getX(self):
+    return self.x
+
+  def getY(self):
+    return self.y
+
+  def getPicture(self):
+    return self.pic
+
+  def getColor(self):
+    return self.pic.getColor(self.x, self.y)
+
+  def setColor(self, color):
+    self.pic.setColor(self.x, self.y, color)
+
+  def getRed(self):
+    return self.pic.getRed(self.x, self.y)
+
+  def setRed(self, red):
+    self.pic.setRed(self.x, self.y, red)
+
+  def getGreen(self):
+    return self.pic.getGreen(self.x, self.y)
+
+  def setGreen(self, green):
+    self.pic.setGreen(self.x, self.y, green)
+
+  def getBlue(self):
+    return self.pic.getBlue(self.x, self.y)
+
+  def setBlue(self, blue):
+    self.pic.setBlue(self.x, self.y, blue)
+
+
+def makeLighter(color:pg.Color, f:float=1.15):
+  r = min(255, color.r*f)
+  g = min(255, color.g*f)
+  b = min(255, color.b*f)
+  return pg.Color((r, g, b))
+
 
 if __name__ == "__main__":
+
+  demo()
+  """
   canvas = Picture(500, 500, "light yellow")
   canvas.show()
   input("Press Enter")
@@ -453,4 +597,4 @@ if __name__ == "__main__":
       canvas.addOval(30, 20, x, y, "red")
   canvas.repaint()
   input("Press Enter")
-
+  """

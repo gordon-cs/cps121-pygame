@@ -13,7 +13,6 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "yes"
 import pygame as pg
 
-
 def demo():
   """
   Demo the basic usage of these tools.
@@ -84,17 +83,20 @@ class Picture:
   def __init__(self, *args, **kwargs):
       """
       Initializer
+
       Args:
-      If none, then make screen with default size (100 x 100) and color (white)
-      If one string parameter - filename or path to a file
-         then make a picture made from this file
-      If one image parameter - pre-existing image to clone
-         make a copy of the input picture
-      If two integer parameters - assume these are width and height
-         make a screen with the given size
-      If third parameter - a color as string (default: "white")
+        If none, then make picture with default size (100 x 100)
+          and color (white)
+        If one string parameter - filename or path to a file
+          then make a picture made from this file
+        If one image parameter - pre-existing image to clone
+          make a copy of the input picture
+        If two integer parameters - assume these are width and height
+          make a picture with given size and default color (white)
+        If third parameter - a color as string (default: "white")
+
       Returns:
-      Nothing
+        Nothing
       """
       size = (100, 100)
       if len(args) == 0:
@@ -541,46 +543,145 @@ class Pixel:
       Args:
         picture: picture that contains this pixel
         x: column index
-        y: raw index
+        y: row index
 
       Returns:
-        a pixel instance at (x, y) in pic
+        a pixel instance at (x, y) in picture
       """
       self.pic = picture
       self.x = x
       self.y = y
 
   def getX(self):
+    """
+    Gets the column index (x) of the pixel
+
+    Args:
+      none
+
+    Returns:
+      column index (nonnegative integer)
+    """
     return self.x
 
   def getY(self):
+    """
+    Gets the row index (y) of the pixel
+
+    Args:
+      none
+
+    Returns:
+      row index (nonnegative integer)
+    """
     return self.y
 
   def getPicture(self):
+    """
+    Gets the picture the pixel is part of
+
+    Args:
+      none
+
+    Returns:
+      the Picture object of the pixel
+    """
     return self.pic
 
   def getColor(self):
+    """
+    Gets the color of the pixel
+
+    Args:
+      none
+
+    Returns:
+      color of the pixel
+    """
     return self.pic.getColor(self.x, self.y)
 
   def setColor(self, color):
+    """
+    Sets the color of the pixel
+
+    Args:
+      color (Color) - the color the pixel will be set
+
+    Returns:
+      Nothing
+     """
     self.pic.setColor(self.x, self.y, color)
 
   def getRed(self):
+    """
+    Returns the red value of the pixel
+
+    Args:
+      none
+
+    Returns:
+      value of red
+    """
     return self.pic.getRed(self.x, self.y)
 
   def setRed(self, red):
+    """
+    Sets the red value of the pixel
+
+    Args:
+      red (int) - the red value to be set
+
+    Returns:
+      Nothing
+    """
     self.pic.setRed(self.x, self.y, red)
 
   def getGreen(self):
+    """
+    Returns the green value of the pixel
+
+    Args:
+      none
+
+    Returns:
+      value of green
+    """
     return self.pic.getGreen(self.x, self.y)
 
   def setGreen(self, green):
+    """
+    Sets the green value of the pixel
+
+    Args:
+      green (int) - the green value to be set
+
+    Returns:
+      Nothing
+    """
     self.pic.setGreen(self.x, self.y, green)
 
   def getBlue(self):
+    """
+    Returns the blue value of the pixel
+
+    Args:
+      none
+
+    Returns:
+      value of blue
+    """
     return self.pic.getBlue(self.x, self.y)
 
   def setBlue(self, blue):
+    """
+    Sets the blue value of the pixel
+
+    Args:
+      blue (int) - the blue value to be set
+
+    Returns:
+      Nothing
+    """
     self.pic.setBlue(self.x, self.y, blue)
 
 

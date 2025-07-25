@@ -2,9 +2,11 @@
 File Name: GCPictureTools.py
 Date: 2024-08-01
 Description: provide functions to work with pictures based on pygame package
+
 Improvement Log
 2024-10-3: add display method to show the picture until user closes the window.
 2024-10-27: add Pixel class; add save method in Picture class to save image into a file
+2025-07-24: minor typo fixes, update on Github, add Makefile
 """
 
 import os
@@ -14,9 +16,9 @@ import pygame as pg
 
 def demo():
   """
-  Demo the basic usgae of these tools.
-  Dispay 4 differnt graphic images
-  Hit enter key to change to the next
+  Demo the basic usage of these tools.
+  Display 4 different graphic images
+  Hit enter key to change to the next, and to exit
   """
   canvas = Picture(500, 500, "light yellow")
   canvas.show()
@@ -36,6 +38,18 @@ def demo():
       canvas.addOval(30, 20, x, y, "red")
   canvas.repaint()
   input("Press Enter")
+
+def makeLighter(color:pg.Color, f:float=1.15):
+  """
+  Sample function to make given picture lighter
+  Shade up by 1.15, but don't go over 255 for each value
+  """
+  r = min(255, color.r*f)
+  g = min(255, color.g*f)
+  b = min(255, color.b*f)
+  return pg.Color((r, g, b))
+
+
 
 #boolean for if changes should update automatically or not
 class autoUpdate():
@@ -169,7 +183,7 @@ class Picture:
     Magnifies a given image
 
     Args:
-      title (string) - title of the image
+      None
 
     Returns:
       Nothing
@@ -523,10 +537,12 @@ class Pixel:
   def __init__(self, picture, x, y):
       """
       Initializer
+
       Args:
-        picture: picture thay contains this pixel
+        picture: picture that contains this pixel
         x: column index
         y: raw index
+
       Returns:
         a pixel instance at (x, y) in pic
       """
@@ -568,33 +584,7 @@ class Pixel:
     self.pic.setBlue(self.x, self.y, blue)
 
 
-def makeLighter(color:pg.Color, f:float=1.15):
-  r = min(255, color.r*f)
-  g = min(255, color.g*f)
-  b = min(255, color.b*f)
-  return pg.Color((r, g, b))
-
 
 if __name__ == "__main__":
 
   demo()
-  """
-  canvas = Picture(500, 500, "light yellow")
-  canvas.show()
-  input("Press Enter")
-  for x in range(0, canvas.getWidth(), 20):
-    for y in range(0, canvas.getHeight(), 30):
-      canvas.addRectFilled(10, 15, x, y, "light blue")
-  canvas.repaint()
-  input("Press Enter")
-  for x in range(0, canvas.getWidth(), 30):
-    for y in range(0, canvas.getHeight(), 30):
-      canvas.addLine("green", x, y, y, x, 2)
-  canvas.repaint()
-  input("Press Enter")
-  for x in range(0, canvas.getWidth(), 35):
-    for y in range(0, canvas.getHeight(), 35):
-      canvas.addOval(30, 20, x, y, "red")
-  canvas.repaint()
-  input("Press Enter")
-  """

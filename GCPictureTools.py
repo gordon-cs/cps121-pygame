@@ -303,7 +303,7 @@ class Picture:
   
   def getColor(self, x, y):
     """
-    Gets the color of a pixel
+    Gets the color (RGBA) of a pixel  
     
     Args:
       x (int) - the x position of the pixel
@@ -313,6 +313,19 @@ class Picture:
       color of the pixel
     """ 
     return pg.Color(self.image.get_at((x, y))[0:3])
+  
+  def getColorRGB(self, x, y):
+    """
+    Gets the RGB values of the color of a pixel
+    
+    Args:
+      x (int) - the x position of the pixel
+      y (int) - the y position of the pixel
+    
+    Returns:
+      the R, G, B values of the color of the pixel
+    """ 
+    return self.image.get_at((x, y))[0:3]
   
   def setColor(self, x, y, color):
     """
@@ -590,7 +603,7 @@ class Pixel:
 
   def getColor(self):
     """
-    Gets the color of the pixel
+    Gets the color (RGBA) of the pixel
 
     Args:
       none
@@ -599,6 +612,18 @@ class Pixel:
       color of the pixel
     """
     return self.pic.getColor(self.x, self.y)
+  
+  def getColorRGB(self):
+    """
+    Gets the RGB values of the color of the pixel
+
+    Args:
+      none
+
+    Returns:
+      the R, G, B values of the color of this pixel
+    """
+    return self.pic.getColorRGB(self.x, self.y)
 
   def setColor(self, color):
     """
